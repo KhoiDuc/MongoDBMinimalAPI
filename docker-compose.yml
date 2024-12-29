@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  mongodbminimalapi:
+    image: ${DOCKER_REGISTRY-}mongodbminimalapi
+    build:
+      context: .
+      dockerfile: MongoDBMinimalAPI/Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - ConnectionStrings__MongoDB=mongodb://mongo:27017/MongoDBMinimalAPI
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:6.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: MongoDBMinimalAPI
